@@ -7,7 +7,7 @@ bot = discord.Bot()
 token = "MTE3Mjg2NzQ3MjU2Nzg0NDk2NQ.G2DEfI.gb3ZMyMsAgaMzvahL4wDufrTq9-7gydnyS9b9k"
 
 
-ItemRate = ["C"] * 60 + ["B"] * 25 + ["A"] * 13 + ["S"] * 2
+# 확률: C60 B25 A13 S2
 
 
 @bot.event
@@ -28,7 +28,7 @@ async def 등록(ctx):
             async def primary(
                 self, button: discord.ui.Button, interaction: discord.Interaction
             ):
-                UserData = []
+                UserData = [0, 0, 0, 0]
                 if interaction.user.id == ctx.user.id:
                     with open(f"{interaction.user.id}.pkl", "wb") as f:
                         pickle.dump(UserData, f)
@@ -103,10 +103,10 @@ async def 기록(ctx):
         embed = discord.Embed(title="가챠 기록", description="")
         embed.add_field(
             name="",
-            value=f"""C: {UserData.count('C')}
-B: {UserData.count('B')}
-**A**: {UserData.count('A')}
-***S***: {UserData.count('S')}""",
+            value=f"""C: {UserData[0]}
+B: {UserData[1]}
+**A**: {UserData[2]}
+***S***: {UserData[3]}""",
             inline=False,
         )
         embed.set_footer(text="나오는 카드의 등급은 C, B, A, S로 총 4종류입니다.")
@@ -119,11 +119,21 @@ B: {UserData.count('B')}
 def Gacha(x, UserID):
     result = []
     for i in range(x):
-        result.append(random.choice(ItemRate))
-    result.sort(key=lambda x: "CBAS".index(x))
+        item = random.randint(0, 100)
+        if item <= 60:
+            result.append("C")
+        elif item > 60 and item <= 85:
+            result.append("B")
+        elif item > 85 and item <= 98:
+            result.append("A")
+        else:
+            result.append("S")
     with open(f"{UserID}.pkl", "rb") as f:
         UserData = pickle.load(f)
-    UserData.extend(result)
+    UserData[0] += result.count("C")
+    UserData[1] += result.count("B")
+    UserData[2] += result.count("A")
+    UserData[3] += result.count("S")
     with open(f"{UserID}.pkl", "wb") as f:
         pickle.dump(UserData, f)
     return result
@@ -149,7 +159,7 @@ async def 가챠(ctx):
                         value=f"{' '.join(result).replace('C', '`C`').replace('B', '`B`').replace('A', '**`A`**').replace('S', '***`S`***')}",
                         inline=False,
                     )
-                    embed.set_footer(text="전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다.")
+                    embed.set_footer(text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다.")
                     await ctx.respond(embed=embed)
                     self.disable_all_items()
                     await interaction.response.edit_message(view=self)
@@ -166,7 +176,7 @@ async def 가챠(ctx):
                         value=f"{' '.join(result).replace('C', '`C`').replace('B', '`B`').replace('A', '**`A`**').replace('S', '***`S`***')}",
                         inline=False,
                     )
-                    embed.set_footer(text="전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다.")
+                    embed.set_footer(text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다.")
                     await ctx.respond(embed=embed)
                     self.disable_all_items()
                     await interaction.response.edit_message(view=self)
@@ -183,44 +193,142 @@ MergeType = ["C 150 -> B 1", "B 100 -> A 1", "A 50 -> S 1"]
 
 
 @bot.slash_command(description="카드 합성을 진행합니다.")
-async def 합성(ctx, type: discord.Option(str, choices=MergeType)):
+async def 합성(ctx, type: discord.Option(str, "합성할 종류를 선택하세요.", choices=MergeType)):
     if os.path.isfile(f"{ctx.user.id}.pkl"):
         with open(f"{ctx.user.id}.pkl", "rb") as f:
             UserData = pickle.load(f)
-        if type == MergeType[0] and UserData.count("C") >= 150:
-            for i in range(150):
-                UserData.remove("C")
-            UserData.append("B")
+        if type == MergeType[0] and UserData[0] >= 150:
+            UserData[0] -= 150
+            UserData[1] += 1
             with open(f"{ctx.user.id}.pkl", "wb") as f:
                 pickle.dump(UserData, f)
-            embed = discord.Embed(title="교환 완료", description="")
+            embed = discord.Embed(title="합성 완료", description="")
             embed.add_field(name="", value="C 카드 150개를 B 1개로 합성하였습니다.", inline=False)
             await ctx.respond(embed=embed)
-        elif type == MergeType[1] and UserData.count("B") >= 100:
-            for i in range(100):
-                UserData.remove("B")
-            UserData.append("A")
+        elif type == MergeType[1] and UserData.count[1] >= 100:
+            UserData[1] -= 100
+            UserData[2] += 1
             with open(f"{ctx.user.id}.pkl", "wb") as f:
                 pickle.dump(UserData, f)
-            embed = discord.Embed(title="교환 완료", description="")
+            embed = discord.Embed(title="합성 완료", description="")
             embed.add_field(name="", value="B 카드 100개를 A 1개로 합성하였습니다.", inline=False)
             await ctx.respond(embed=embed)
-        elif type == MergeType[0] and UserData.count("A") >= 50:
-            for i in range(50):
-                UserData.remove("A")
-            UserData.append("S")
+        elif type == MergeType[0] and UserData.count[2] >= 50:
+            UserData[2] -= 50
+            UserData[3] += 1
             with open(f"{ctx.user.id}.pkl", "wb") as f:
                 pickle.dump(UserData, f)
-            embed = discord.Embed(title="교환 완료", description="")
+            embed = discord.Embed(title="합성 완료", description="")
             embed.add_field(name="", value="A 카드 50개를 S 1개로 합성하였습니다.", inline=False)
             await ctx.respond(embed=embed)
         else:
             embed = discord.Embed(title="개수 부족", description="")
-            embed.add_field(name="", value="교환하려는 카드의 개수와 종류를 확인해주세요.", inline=False)
+            embed.add_field(name="", value="합성하려는 카드의 개수와 종류를 확인해주세요.", inline=False)
             await ctx.respond(embed=embed)
     else:
         embed = discord.Embed(title="등록되지 않은 유저", description="")
         embed.add_field(name="", value="`/등록`을 통해 가입한 후 다시 사용해주세요.", inline=False)
+        await ctx.respond(embed=embed)
+
+
+DebugType = ["유저 데이터 확인", "가챠 횟수 확인", "강제 부여"]
+
+
+def force(CardType, CardAmount, UserID):
+    with open(f"{UserID}.pkl", "rb") as f:
+        UserData = pickle.load(f)
+    if CardType == "C":
+        UserData[0] += CardAmount
+    elif CardType == "B":
+        UserData[1] += CardAmount
+    elif CardType == "A":
+        UserData[2] += CardAmount
+    else:
+        UserData[3] += CardAmount
+    with open(f"{UserID}.pkl", "wb") as f:
+        pickle.dump(UserData, f)
+
+
+@bot.slash_command(description="개발자 전용 명령어")
+async def 디버그(
+    ctx,
+    type: discord.Option(str, "디버그 내용 선택", choices=DebugType),
+    num: discord.Option(int, "가챠 횟수 확인, 강제 부여시 입력", required=False, default=0),
+    debuguser: discord.Option(
+        discord.SlashCommandOptionType.user,
+        "유저 데이터 확인, 강제 부여시 입력",
+        required=False,
+        default=0,
+    ),
+    card: discord.Option(
+        str, "강제 부여시 입력", choices=["C", "B", "A", "S"], required=False, default=0
+    ),
+):
+    if ctx.user.id == 763422064794796042 and os.path.isfile(f"{ctx.user.id}.pkl"):
+        with open(f"{ctx.user.id}.pkl", "rb") as f:
+            UserData = pickle.load(f)
+        if type == DebugType[0]:
+            if debuguser == 0:
+                embed = discord.Embed(
+                    title="유저 정보",
+                    description=f"<@{ctx.user.id}>({ctx.user.id})",
+                )
+                embed.add_field(name="", value=f"{str(UserData)}")
+            elif os.path.isfile(f"{debuguser.id}.pkl"):
+                with open(f"{debuguser.id}.pkl", "rb") as f:
+                    UserData = pickle.load(f)
+                embed = discord.Embed(
+                    title="유저 정보",
+                    description=f"<@{debuguser.id}>({debuguser.id})",
+                )
+                embed.add_field(name="", value=f"{str(UserData)}")
+            else:
+                embed = discord.Embed(title="유저 정보", description="")
+                embed.add_field(name="", value=f"<@{debuguser.id}> 유저는 등록하지 않은 유저입니다.")
+            await ctx.respond(embed=embed)
+
+        elif type == DebugType[1]:
+            result = Gacha(num, ctx.user.id)
+            await ctx.response.defer()
+            embed = discord.Embed(title=f"{num}회 가챠 결과", description="")
+            embed.add_field(
+                name=f"",
+                value=f"""C: {result.count('C')}
+B: {result.count('B')}
+**A**: {result.count('A')}
+***S***: {result.count('S')}""",
+                inline=False,
+            )
+            embed.set_footer(text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다.")
+            await ctx.followup.send(embed=embed)
+
+        elif type == DebugType[2]:
+            if card == 0:
+                card = "C"
+            if debuguser == 0:
+                force(card, num, ctx.user.id)
+                embed = discord.Embed(
+                    title="강제 부여",
+                    description=f"<@{ctx.user.id}>({ctx.user.id})",
+                )
+                embed.add_field(name="", value=f"{card} 카드 {num}개가 강제 부여되었습니다.")
+            elif os.path.isfile(f"{debuguser.id}.pkl"):
+                force(card, num, debuguser.id)
+                embed = discord.Embed(
+                    title="강제 부여",
+                    description=f"<@{debuguser.id}>({debuguser.id})",
+                )
+                embed.add_field(name="", value=f"{card} 카드 {num}개가 강제 부여되었습니다.")
+            else:
+                embed = discord.Embed(title="유저 정보", description="")
+                embed.add_field(name="", value=f"<@{debuguser.id}> 유저는 등록하지 않은 유저입니다.")
+            await ctx.respond(embed=embed)
+
+    else:
+        embed = discord.Embed(title="개발자 전용 명령어", description="")
+        embed.add_field(
+            name="", value="개발자가 아닙니다. 확인 후 다시 사용해주세요. 개발자가 맞다면 등록이 되어있는지 확인해주세요."
+        )
         await ctx.respond(embed=embed)
 
 
