@@ -126,7 +126,7 @@ def Gacha(x, UserID):
     ARate = [13, 15, 17, 17, 20, 22, 22, 25, 27, 27, 30]
     with open(f"{UserID}.pkl", "rb") as f:
         UserData = pickle.load(f)
-    SPlus = UserData[5]
+    SPlus = UserData[4]
     for i in range(x):
         item = random.randint(0, 100)
         if item <= CRate[SPlus]:
