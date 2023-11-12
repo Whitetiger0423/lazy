@@ -370,7 +370,8 @@ async def 강화(
                     self, button: discord.ui.Button, interaction: discord.Interaction
                 ):
                     if interaction.user.id == ctx.user.id:
-                        if UserData >= 10:
+                        if UserData[3] >= 10:
+                            UserData[3] -= 10
                             if random.randint(1, 10) <= 3:
                                 UserData[4] += 1
                                 embed = discord.Embed(title="강화 완료", description="")
@@ -412,7 +413,8 @@ async def 강화(
                     self, button: discord.ui.Button, interaction: discord.Interaction
                 ):
                     if interaction.user.id == ctx.user.id:
-                        if UserData >= 15:
+                        if UserData[3] >= 15:
+                            UserData[3] -= 15
                             if random.randint(1, 10) <= 6:
                                 UserData[4] += 1
                                 embed = discord.Embed(title="강화 완료", description="")
@@ -454,7 +456,8 @@ async def 강화(
                     self, button: discord.ui.Button, interaction: discord.Interaction
                 ):
                     if interaction.user.id == ctx.user.id:
-                        if UserData >= 20:
+                        if UserData[3] >= 20:
+                            UserData[3] -= 20
                             if random.randint(1, 10) <= 9:
                                 UserData[4] += 1
                                 embed = discord.Embed(title="강화 완료", description="")
@@ -496,7 +499,8 @@ async def 강화(
                     self, button: discord.ui.Button, interaction: discord.Interaction
                 ):
                     if interaction.user.id == ctx.user.id:
-                        if UserData >= 23:
+                        if UserData[3] >= 23:
+                            UserData[3] -= 23
                             UserData[4] += 1
                             embed = discord.Embed(title="강화 완료", description="")
                             embed.add_field(
