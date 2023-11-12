@@ -199,7 +199,7 @@ async def 가챠(ctx):
         await ctx.respond(embed=embed)
 
 
-MergeType = ["C 150 -> B 1", "B 100 -> A 1", "A 50 -> S 1"]
+MergeType = ["C -> B", "B -> A", "A -> S"]
 
 
 @bot.slash_command(description="카드 합성을 진행합니다.")
@@ -219,40 +219,120 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
             level = 3
         else:
             level = 0
-        if mergetpe == MergeType[0] and UserData[0] >= CAmount[level]:
-            UserData[0] -= CAmount[level]
-            UserData[1] += 1
-            with open(f"{ctx.user.id}.pkl", "wb") as f:
-                pickle.dump(UserData, f)
-            embed = discord.Embed(title="합성 완료", description="")
+        if mergetpe == MergeType[0]:
+            embed = discord.Embed(title="합성", description="")
             embed.add_field(
-                name="", value=f"C 카드 {CAmount[level]}개를 B 1개로 합성하였습니다.", inline=False
+                name="",
+                value=f"C 카드 {CAmount[level]}개를 B 카드 1개로 합성합니다. 버튼을 누르면 합성을 진행합니다.",
+                inline=False,
             )
-            await ctx.respond(embed=embed)
+            embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
+
+            class Button(discord.ui.View):
+                @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
+                async def CtoB(
+                    self, button: discord.ui.Button, interaction: discord.Interaction
+                ):
+                    if interaction.user.id == ctx.user.id:
+                        if UserData[0] >= CAmount[level]:
+                            UserData[0] -= CAmount[level]
+                            UserData[1] += 1
+                            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                                pickle.dump(UserData, f)
+                            embed = discord.Embed(title="합성 완료", description="")
+                            embed.add_field(
+                                name="",
+                                value=f"C 카드 {CAmount[level]}개를 B 카드 1개로 합성하였습니다.",
+                                inline=False,
+                            )
+                            embed.set_footer(
+                                text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다."
+                            )
+                        else:
+                            embed = discord.Embed(title="합성 실패", description="")
+                            embed.add_field(
+                                name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
+                            )
+                        await ctx.respond(embed=embed)
+                        self.disable_all_items()
+                        await interaction.response.edit_message(view=self)
+
         elif mergetpe == MergeType[1] and UserData[1] >= BAmount[level]:
-            UserData[1] -= BAmount[level]
-            UserData[2] += 1
-            with open(f"{ctx.user.id}.pkl", "wb") as f:
-                pickle.dump(UserData, f)
-            embed = discord.Embed(title="합성 완료", description="")
+            embed = discord.Embed(title="합성", description="")
             embed.add_field(
-                name="", value=f"B 카드 {BAmount[level]}개를 A 1개로 합성하였습니다.", inline=False
+                name="",
+                value=f"B 카드 {BAmount[level]}개를 A 카드 1개로 합성합니다. 버튼을 누르면 합성을 진행합니다.",
+                inline=False,
             )
-            await ctx.respond(embed=embed)
+            embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
+
+            class Button(discord.ui.View):
+                @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
+                async def BtoA(
+                    self, button: discord.ui.Button, interaction: discord.Interaction
+                ):
+                    if interaction.user.id == ctx.user.id:
+                        if UserData[1] >= BAmount[level]:
+                            UserData[1] -= BAmount[level]
+                            UserData[2] += 1
+                            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                                pickle.dump(UserData, f)
+                            embed = discord.Embed(title="합성 완료", description="")
+                            embed.add_field(
+                                name="",
+                                value=f"B 카드 {BAmount[level]}개를 A 카드 1개로 합성하였습니다.",
+                                inline=False,
+                            )
+                            embed.set_footer(
+                                text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다."
+                            )
+                        else:
+                            embed = discord.Embed(title="합성 실패", description="")
+                            embed.add_field(
+                                name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
+                            )
+                        await ctx.respond(embed=embed)
+                        self.disable_all_items()
+                        await interaction.response.edit_message(view=self)
+
         elif mergetpe == MergeType[2] and UserData[2] >= AAmount[level]:
-            UserData[2] -= AAmount[level]
-            UserData[3] += 1
-            with open(f"{ctx.user.id}.pkl", "wb") as f:
-                pickle.dump(UserData, f)
-            embed = discord.Embed(title="합성 완료", description="")
+            embed = discord.Embed(title="합성", description="")
             embed.add_field(
-                name="", value=f"A 카드 {AAmount[level]}개를 S 1개로 합성하였습니다.", inline=False
+                name="",
+                value=f"A 카드 {AAmount[level]}개를 S 카드 1개로 합성합니다. 버튼을 누르면 합성을 진행합니다.",
+                inline=False,
             )
-            await ctx.respond(embed=embed)
-        else:
-            embed = discord.Embed(title="개수 부족", description="")
-            embed.add_field(name="", value="합성하려는 카드의 개수와 종류를 확인해주세요.", inline=False)
-            await ctx.respond(embed=embed)
+            embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
+
+            class Button(discord.ui.View):
+                @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
+                async def AtoS(
+                    self, button: discord.ui.Button, interaction: discord.Interaction
+                ):
+                    if interaction.user.id == ctx.user.id:
+                        if UserData[2] >= AAmount[level]:
+                            UserData[2] -= AAmount[level]
+                            UserData[3] += 1
+                            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                                pickle.dump(UserData, f)
+                            embed = discord.Embed(title="합성 완료", description="")
+                            embed.add_field(
+                                name="",
+                                value=f"A 카드 {AAmount[level]}개를 S 카드 1개로 합성하였습니다.",
+                                inline=False,
+                            )
+                            embed.set_footer(
+                                text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다."
+                            )
+                        else:
+                            embed = discord.Embed(title="합성 실패", description="")
+                            embed.add_field(
+                                name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
+                            )
+                        await ctx.respond(embed=embed)
+                        self.disable_all_items()
+                        await interaction.response.edit_message(view=self)
+
     else:
         embed = discord.Embed(title="등록되지 않은 유저", description="")
         embed.add_field(name="", value="`/등록`을 통해 가입한 후 다시 사용해주세요.", inline=False)
