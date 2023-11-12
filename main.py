@@ -128,7 +128,7 @@ def Gacha(x, UserID):
         UserData = pickle.load(f)
     SPlus = UserData[4]
     if SPlus >= 10:
-        SPlus == 10
+        SPlus = 10
     for i in range(x):
         item = random.randint(0, 100)
         if item <= CRate[SPlus]:
