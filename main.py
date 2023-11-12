@@ -227,6 +227,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                 inline=False,
             )
             embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
+            await ctx.respond(embed=embed)
 
             class Button(discord.ui.View):
                 @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
@@ -265,6 +266,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                 inline=False,
             )
             embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
+            await ctx.respond(embed=embed)
 
             class Button(discord.ui.View):
                 @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
@@ -303,6 +305,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                 inline=False,
             )
             embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
+            await ctx.respond(embed=embed)
 
             class Button(discord.ui.View):
                 @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
