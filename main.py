@@ -96,13 +96,15 @@ async def 탈퇴(ctx):
 
 
 @bot.slash_command(description="가챠 기록을 확인합니다.")
-async def 기록(ctx):
+async def 정보(ctx):
     if os.path.isfile(f"{ctx.user.id}.pkl"):
         with open(f"{ctx.user.id}.pkl", "rb") as f:
             UserData = pickle.load(f)
-        embed = discord.Embed(title="가챠 기록", description="")
+        embed = discord.Embed(title="유저 정보", description="")
+        embed.add_field(name="ID", description=f"`{ctx.user.id}`")
+        embed.add_field(name="레벨", description=f"레벨 {UserData[4]}")
         embed.add_field(
-            name="",
+            name="인벤토리",
             value=f"""C: {UserData[0]}
 B: {UserData[1]}
 **A**: {UserData[2]}
@@ -110,9 +112,7 @@ B: {UserData[1]}
 ***S+***: {UserData[4]}""",
             inline=False,
         )
-        embed.set_footer(
-            text="나오는 카드의 등급은 C, B, A, S로 총 4종류입니다. 강화를 통해 S+ 카드를 만들 수 있습니다."
-        )
+        embed.set_footer(text="tip: 강화를 통해 S+ 카드를 만들 수 있습니다. S+ 카드의 개수로 레벨이 결정됩니다.")
     else:
         embed = discord.Embed(title="등록되지 않은 유저", description="")
         embed.add_field(name="", value="`/등록`을 통해 가입한 후 다시 사용해주세요.", inline=False)
@@ -169,7 +169,7 @@ async def 가챠(ctx):
                         value=f"{' '.join(result).replace('C', '`C`').replace('B', '`B`').replace('A', '**`A`**').replace('S', '***`S`***')}",
                         inline=False,
                     )
-                    embed.set_footer(text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다.")
+                    embed.set_footer(text="tip: 이전 포함 전체 결과는 `/정보` 명령어를 통해 확인할 수 있습니다.")
                     await ctx.respond(embed=embed)
                     self.disable_all_items()
                     await interaction.response.edit_message(view=self)
@@ -186,7 +186,7 @@ async def 가챠(ctx):
                         value=f"{' '.join(result).replace('C', '`C`').replace('B', '`B`').replace('A', '**`A`**').replace('S', '***`S`***')}",
                         inline=False,
                     )
-                    embed.set_footer(text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다.")
+                    embed.set_footer(text="tip: 이전 포함 전체 결과는 `/정보` 명령어를 통해 확인할 수 있습니다.")
                     await ctx.respond(embed=embed)
                     self.disable_all_items()
                     await interaction.response.edit_message(view=self)
@@ -226,7 +226,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                 value=f"C 카드 {CAmount[level]}개를 B 카드 1개로 합성합니다. 버튼을 누르면 합성을 진행합니다.",
                 inline=False,
             )
-            embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
+            embed.set_footer(text="tip: 합성 확률은 100%입니다. 레벨이 높아질수록 조건이 좋아집니다.")
 
             class Button(discord.ui.View):
                 @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
@@ -246,7 +246,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                                 inline=False,
                             )
                             embed.set_footer(
-                                text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다."
+                                text="tip: 이전 포함 전체 결과는 /정보 명령어를 통해 확인할 수 있습니다."
                             )
                         else:
                             embed = discord.Embed(title="합성 실패", description="")
@@ -266,7 +266,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                 value=f"B 카드 {BAmount[level]}개를 A 카드 1개로 합성합니다. 버튼을 누르면 합성을 진행합니다.",
                 inline=False,
             )
-            embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
+            embed.set_footer(text="tip: 합성 확률은 100%입니다. 레벨이 높아질수록 조건이 좋아집니다.")
 
             class Button(discord.ui.View):
                 @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
@@ -286,7 +286,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                                 inline=False,
                             )
                             embed.set_footer(
-                                text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다."
+                                text="tip: 이전 포함 전체 결과는 /정보 명령어를 통해 확인할 수 있습니다."
                             )
                         else:
                             embed = discord.Embed(title="합성 실패", description="")
@@ -306,7 +306,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                 value=f"A 카드 {AAmount[level]}개를 S 카드 1개로 합성합니다. 버튼을 누르면 합성을 진행합니다.",
                 inline=False,
             )
-            embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
+            embed.set_footer(text="tip: 합성 확률은 100%입니다. 레벨이 높아질수록 조건이 좋아집니다.")
 
             class Button(discord.ui.View):
                 @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
@@ -326,7 +326,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                                 inline=False,
                             )
                             embed.set_footer(
-                                text="이전 포함 전체 결과는 `/기록` 명령어를 통해 확인할 수 있습니다."
+                                text="tip: 이전 포함 전체 결과는 /정보 명령어를 통해 확인할 수 있습니다."
                             )
                         else:
                             embed = discord.Embed(title="합성 실패", description="")
