@@ -387,7 +387,6 @@ async def 강화(
                                 )
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
-                            await ctx.respond(embed=embed)
                         else:
                             embed = discord.Embed(title="강화 실패", description="")
                             embed.add_field(
@@ -430,7 +429,6 @@ async def 강화(
                                 )
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
-                            await ctx.respond(embed=embed)
                         else:
                             embed = discord.Embed(title="강화 실패", description="")
                             embed.add_field(
@@ -473,7 +471,6 @@ async def 강화(
                                 )
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
-                            await ctx.respond(embed=embed)
                         else:
                             embed = discord.Embed(title="강화 실패", description="")
                             embed.add_field(
@@ -508,7 +505,6 @@ async def 강화(
                             )
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
-                            await ctx.respond(embed=embed)
                         else:
                             embed = discord.Embed(title="강화 실패", description="")
                             embed.add_field(
