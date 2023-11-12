@@ -28,7 +28,7 @@ async def 등록(ctx):
             async def primary(
                 self, button: discord.ui.Button, interaction: discord.Interaction
             ):
-                UserData = [0, 0, 0, 0]
+                UserData = [0, 0, 0, 0, 0]
                 if interaction.user.id == ctx.user.id:
                     with open(f"{interaction.user.id}.pkl", "wb") as f:
                         pickle.dump(UserData, f)
@@ -106,10 +106,13 @@ async def 기록(ctx):
             value=f"""C: {UserData[0]}
 B: {UserData[1]}
 **A**: {UserData[2]}
-***S***: {UserData[3]}""",
+***S***: {UserData[3]}
+***S+***: {UserData[4]}""",
             inline=False,
         )
-        embed.set_footer(text="나오는 카드의 등급은 C, B, A, S로 총 4종류입니다.")
+        embed.set_footer(
+            text="나오는 카드의 등급은 C, B, A, S로 총 4종류입니다. 강화를 통해 S+ 카드를 만들 수 있습니다."
+        )
     else:
         embed = discord.Embed(title="등록되지 않은 유저", description="")
         embed.add_field(name="", value="`/등록`을 통해 가입한 후 다시 사용해주세요.", inline=False)
@@ -231,6 +234,70 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
         await ctx.respond(embed=embed)
 
 
+EnforceType = ["S 10", "S 15", "S 20", "S 23"]
+
+
+@bot.slash_command(description="카드 강화를 진행합니다.")
+async def 강화(
+    ctx, enforcetpe: discord.Option(str, "강화 재료의 개수를 선택하세요.", choices=MergeType)
+):
+    if os.path.isfile(f"{ctx.user.id}.pkl"):
+        with open(f"{ctx.user.id}.pkl", "rb") as f:
+            UserData = pickle.load(f)
+        if enforcetpe == EnforceType[0] and UserData[3] >= 10:
+            UserData[3] -= 10
+            if random.randint(1, 10) <= 3:
+                UserData[4] += 1
+                embed = discord.Embed(title="강화 완료", description="")
+                embed.add_field(name="", value="30%의 확률로 S+ 카드로 강화되었습니다.", inline=False)
+            else:
+                embed = discord.Embed(title="강화 실패", description="")
+                embed.add_field(name="", value="강화에 실패하였습니다..", inline=False)
+            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                pickle.dump(UserData, f)
+            await ctx.respond(embed=embed)
+        elif enforcetpe == EnforceType[1] and UserData[3] >= 15:
+            UserData[3] -= 15
+            if random.randint(1, 10) <= 6:
+                UserData[4] += 1
+                embed = discord.Embed(title="강화 완료", description="")
+                embed.add_field(name="", value="60%의 확률로 S+ 카드로 강화되었습니다.", inline=False)
+            else:
+                embed = discord.Embed(title="강화 실패", description="")
+                embed.add_field(name="", value="강화에 실패하였습니다..", inline=False)
+            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                pickle.dump(UserData, f)
+            await ctx.respond(embed=embed)
+        elif enforcetpe == EnforceType[2] and UserData[3] >= 20:
+            UserData[3] -= 20
+            if random.randint(1, 10) <= 9:
+                UserData[4] += 1
+                embed = discord.Embed(title="강화 완료", description="")
+                embed.add_field(name="", value="90%의 확률로 S+ 카드로 강화되었습니다.", inline=False)
+            else:
+                embed = discord.Embed(title="강화 실패", description="")
+                embed.add_field(name="", value="강화에 실패하였습니다..", inline=False)
+            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                pickle.dump(UserData, f)
+            await ctx.respond(embed=embed)
+        elif enforcetpe == EnforceType[3] and UserData[4] >= 23:
+            UserData[3] -= 23
+            UserData[4] += 1
+            embed = discord.Embed(title="강화 완료", description="")
+            embed.add_field(name="", value="100%의 확률로 S+ 카드로 강화되었습니다.", inline=False)
+            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                pickle.dump(UserData, f)
+            await ctx.respond(embed=embed)
+        else:
+            embed = discord.Embed(title="개수 부족", description="")
+            embed.add_field(name="", value="강화하려는 카드의 개수를 확인해주세요.", inline=False)
+            await ctx.respond(embed=embed)
+    else:
+        embed = discord.Embed(title="등록되지 않은 유저", description="")
+        embed.add_field(name="", value="`/등록`을 통해 가입한 후 다시 사용해주세요.", inline=False)
+        await ctx.respond(embed=embed)
+
+
 DebugType = ["유저 데이터 확인", "가챠 횟수 확인", "강제 부여"]
 
 
@@ -243,8 +310,10 @@ def force(CardType, CardAmount, UserID):
         UserData[1] += CardAmount
     elif CardType == "A":
         UserData[2] += CardAmount
-    else:
+    elif CardType == "S":
         UserData[3] += CardAmount
+    elif CardType == "S+":
+        UserData[4] += CardAmount
     with open(f"{UserID}.pkl", "wb") as f:
         pickle.dump(UserData, f)
 
@@ -261,7 +330,7 @@ async def 디버그(
         default=0,
     ),
     card: discord.Option(
-        str, "강제 부여시 입력", choices=["C", "B", "A", "S"], required=False, default=0
+        str, "강제 부여시 입력", choices=["C", "B", "A", "S", "S+"], required=False, default=0
     ),
 ):
     if ctx.user.id == 763422064794796042 and os.path.isfile(f"{ctx.user.id}.pkl"):
