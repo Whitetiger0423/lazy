@@ -101,8 +101,8 @@ async def 정보(ctx):
         with open(f"{ctx.user.id}.pkl", "rb") as f:
             UserData = pickle.load(f)
         embed = discord.Embed(title="유저 정보", description="")
-        embed.add_field(name="ID", description=f"`{ctx.user.id}`")
-        embed.add_field(name="레벨", description=f"레벨 {UserData[4]}")
+        embed.add_field(name="ID", value=f"`{ctx.user.id}`", inline=True)
+        embed.add_field(name="레벨", value=f"레벨 {UserData[4]}", inline=True)
         embed.add_field(
             name="인벤토리",
             value=f"""C: {UserData[0]}
