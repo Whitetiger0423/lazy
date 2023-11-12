@@ -355,54 +355,166 @@ async def 강화(
     if os.path.isfile(f"{ctx.user.id}.pkl"):
         with open(f"{ctx.user.id}.pkl", "rb") as f:
             UserData = pickle.load(f)
-        if enforcetpe == EnforceType[0] and UserData[3] >= 10:
-            UserData[3] -= 10
-            if random.randint(1, 10) <= 3:
-                UserData[4] += 1
-                embed = discord.Embed(title="강화 완료", description="")
-                embed.add_field(name="", value="30%의 확률로 S+ 카드로 강화되었습니다.", inline=False)
-            else:
-                embed = discord.Embed(title="강화 실패", description="")
-                embed.add_field(name="", value="강화에 실패하였습니다..", inline=False)
-            with open(f"{ctx.user.id}.pkl", "wb") as f:
-                pickle.dump(UserData, f)
-            await ctx.respond(embed=embed)
-        elif enforcetpe == EnforceType[1] and UserData[3] >= 15:
-            UserData[3] -= 15
-            if random.randint(1, 10) <= 6:
-                UserData[4] += 1
-                embed = discord.Embed(title="강화 완료", description="")
-                embed.add_field(name="", value="60%의 확률로 S+ 카드로 강화되었습니다.", inline=False)
-            else:
-                embed = discord.Embed(title="강화 실패", description="")
-                embed.add_field(name="", value="강화에 실패하였습니다..", inline=False)
-            with open(f"{ctx.user.id}.pkl", "wb") as f:
-                pickle.dump(UserData, f)
-            await ctx.respond(embed=embed)
-        elif enforcetpe == EnforceType[2] and UserData[3] >= 20:
-            UserData[3] -= 20
-            if random.randint(1, 10) <= 9:
-                UserData[4] += 1
-                embed = discord.Embed(title="강화 완료", description="")
-                embed.add_field(name="", value="90%의 확률로 S+ 카드로 강화되었습니다.", inline=False)
-            else:
-                embed = discord.Embed(title="강화 실패", description="")
-                embed.add_field(name="", value="강화에 실패하였습니다..", inline=False)
-            with open(f"{ctx.user.id}.pkl", "wb") as f:
-                pickle.dump(UserData, f)
-            await ctx.respond(embed=embed)
-        elif enforcetpe == EnforceType[3] and UserData[3] >= 23:
-            UserData[3] -= 23
-            UserData[4] += 1
-            embed = discord.Embed(title="강화 완료", description="")
-            embed.add_field(name="", value="100%의 확률로 S+ 카드로 강화되었습니다.", inline=False)
-            with open(f"{ctx.user.id}.pkl", "wb") as f:
-                pickle.dump(UserData, f)
-            await ctx.respond(embed=embed)
-        else:
-            embed = discord.Embed(title="개수 부족", description="")
-            embed.add_field(name="", value="강화하려는 카드의 개수를 확인해주세요.", inline=False)
-            await ctx.respond(embed=embed)
+        if enforcetpe == EnforceType[0]:
+            embed = discord.Embed(title="강화", description="")
+            embed.add_field(
+                name="",
+                value=f"S 카드 10개를 S+ 카드 1개로 합성합니다. 확률은 30%입니다.",
+                inline=False,
+            )
+            embed.set_footer(text="tip: S카드 23개를 이용하면 강화 성공확률이 100%가 됩니다.")
+
+            class Button(discord.ui.View):
+                @discord.ui.button(label="강화", style=discord.ButtonStyle.primary)
+                async def S10(
+                    self, button: discord.ui.Button, interaction: discord.Interaction
+                ):
+                    if interaction.user.id == ctx.user.id:
+                        if UserData >= 10:
+                            if random.randint(1, 10) <= 3:
+                                UserData[4] += 1
+                                embed = discord.Embed(title="강화 완료", description="")
+                                embed.add_field(
+                                    name="",
+                                    value="30%의 확률로 S+ 카드로 강화되었습니다.",
+                                    inline=False,
+                                )
+                            else:
+                                embed = discord.Embed(title="강화 실패", description="")
+                                embed.add_field(
+                                    name="", value="강화에 실패하였습니다..", inline=False
+                                )
+                            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                                pickle.dump(UserData, f)
+                            await ctx.respond(embed=embed)
+                        else:
+                            embed = discord.Embed(title="강화 실패", description="")
+                            embed.add_field(
+                                name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
+                            )
+                        await ctx.respond(embed=embed)
+                        self.disable_all_items()
+                        await interaction.response.edit_message(view=self)
+
+            await ctx.respond(embed=embed, view=Button())
+        elif enforcetpe == EnforceType[1]:
+            embed = discord.Embed(title="강화", description="")
+            embed.add_field(
+                name="",
+                value=f"S 카드 15개를 S+ 카드 1개로 합성합니다. 확률은 60%입니다.",
+                inline=False,
+            )
+            embed.set_footer(text="tip: S카드 23개를 이용하면 강화 성공확률이 100%가 됩니다.")
+
+            class Button(discord.ui.View):
+                @discord.ui.button(label="강화", style=discord.ButtonStyle.primary)
+                async def S15(
+                    self, button: discord.ui.Button, interaction: discord.Interaction
+                ):
+                    if interaction.user.id == ctx.user.id:
+                        if UserData >= 15:
+                            if random.randint(1, 10) <= 6:
+                                UserData[4] += 1
+                                embed = discord.Embed(title="강화 완료", description="")
+                                embed.add_field(
+                                    name="",
+                                    value="60%의 확률로 S+ 카드로 강화되었습니다.",
+                                    inline=False,
+                                )
+                            else:
+                                embed = discord.Embed(title="강화 실패", description="")
+                                embed.add_field(
+                                    name="", value="강화에 실패하였습니다..", inline=False
+                                )
+                            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                                pickle.dump(UserData, f)
+                            await ctx.respond(embed=embed)
+                        else:
+                            embed = discord.Embed(title="강화 실패", description="")
+                            embed.add_field(
+                                name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
+                            )
+                        await ctx.respond(embed=embed)
+                        self.disable_all_items()
+                        await interaction.response.edit_message(view=self)
+
+            await ctx.respond(embed=embed, view=Button())
+        elif enforcetpe == EnforceType[2]:
+            embed = discord.Embed(title="강화", description="")
+            embed.add_field(
+                name="",
+                value=f"S 카드 20개를 S+ 카드 1개로 합성합니다. 확률은 90%입니다.",
+                inline=False,
+            )
+            embed.set_footer(text="tip: S카드 23개를 이용하면 강화 성공확률이 100%가 됩니다.")
+
+            class Button(discord.ui.View):
+                @discord.ui.button(label="강화", style=discord.ButtonStyle.primary)
+                async def S20(
+                    self, button: discord.ui.Button, interaction: discord.Interaction
+                ):
+                    if interaction.user.id == ctx.user.id:
+                        if UserData >= 20:
+                            if random.randint(1, 10) <= 9:
+                                UserData[4] += 1
+                                embed = discord.Embed(title="강화 완료", description="")
+                                embed.add_field(
+                                    name="",
+                                    value="90%의 확률로 S+ 카드로 강화되었습니다.",
+                                    inline=False,
+                                )
+                            else:
+                                embed = discord.Embed(title="강화 실패", description="")
+                                embed.add_field(
+                                    name="", value="강화에 실패하였습니다..", inline=False
+                                )
+                            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                                pickle.dump(UserData, f)
+                            await ctx.respond(embed=embed)
+                        else:
+                            embed = discord.Embed(title="강화 실패", description="")
+                            embed.add_field(
+                                name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
+                            )
+                        await ctx.respond(embed=embed)
+                        self.disable_all_items()
+                        await interaction.response.edit_message(view=self)
+
+            await ctx.respond(embed=embed, view=Button())
+        elif enforcetpe == EnforceType[3]:
+            embed = discord.Embed(title="강화", description="")
+            embed.add_field(
+                name="",
+                value=f"S 카드 23개를 S+ 카드 1개로 합성합니다. 확률은 100%입니다.",
+                inline=False,
+            )
+            embed.set_footer(text="tip: S카드 23개를 이용하면 강화 성공확률이 100%가 됩니다.. 이미 하셨군요!")
+
+            class Button(discord.ui.View):
+                @discord.ui.button(label="강화", style=discord.ButtonStyle.primary)
+                async def S23(
+                    self, button: discord.ui.Button, interaction: discord.Interaction
+                ):
+                    if interaction.user.id == ctx.user.id:
+                        if UserData >= 23:
+                            UserData[4] += 1
+                            embed = discord.Embed(title="강화 완료", description="")
+                            embed.add_field(
+                                name="", value="100%의 확률로 S+ 카드로 강화되었습니다.", inline=False
+                            )
+                            with open(f"{ctx.user.id}.pkl", "wb") as f:
+                                pickle.dump(UserData, f)
+                            await ctx.respond(embed=embed)
+                        else:
+                            embed = discord.Embed(title="강화 실패", description="")
+                            embed.add_field(
+                                name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
+                            )
+                        await ctx.respond(embed=embed)
+                        self.disable_all_items()
+                        await interaction.response.edit_message(view=self)
+
+            await ctx.respond(embed=embed, view=Button())
     else:
         embed = discord.Embed(title="등록되지 않은 유저", description="")
         embed.add_field(name="", value="`/등록`을 통해 가입한 후 다시 사용해주세요.", inline=False)
