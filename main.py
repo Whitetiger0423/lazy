@@ -124,17 +124,19 @@ def Gacha(x, UserID):
     CRate = [60, 50, 40, 40, 30, 20, 20, 20, 20, 20, 20]
     BRate = [25, 30, 35, 35, 40, 45, 45, 40, 35, 35, 30]
     ARate = [13, 15, 17, 17, 20, 22, 22, 25, 27, 27, 30]
-    SRate = [2, 5, 8, 8, 10, 13, 13, 15, 18, 18, 20]
     with open(f"{UserID}.pkl", "rb") as f:
         UserData = pickle.load(f)
-
+    SPlus = UserData[5]
     for i in range(x):
         item = random.randint(0, 100)
-        if item <= 60:
+        if item <= CRate[SPlus]:
             result.append("C")
-        elif item > 60 and item <= 85:
+        elif item > CRate[SPlus] and item <= CRate[SPlus] + BRate[SPlus]:
             result.append("B")
-        elif item > 85 and item <= 98:
+        elif (
+            item > CRate[SPlus] + BRate[SPlus]
+            and item <= CRate[SPlus] + BRate[SPlus] + ARate[SPlus]
+        ):
             result.append("A")
         else:
             result.append("S")
@@ -203,31 +205,49 @@ MergeType = ["C 150 -> B 1", "B 100 -> A 1", "A 50 -> S 1"]
 @bot.slash_command(description="카드 합성을 진행합니다.")
 async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택하세요.", choices=MergeType)):
     if os.path.isfile(f"{ctx.user.id}.pkl"):
+        CAmount = [150, 100, 70, 50]
+        BAmount = [100, 70, 50, 30]
+        AAmount = [50, 30, 20, 10]
         with open(f"{ctx.user.id}.pkl", "rb") as f:
             UserData = pickle.load(f)
-        if mergetpe == MergeType[0] and UserData[0] >= 150:
-            UserData[0] -= 150
+        Splus = UserData[4]
+        if Splus >= 2 and Splus <= 5:
+            level = 1
+        elif Splus >= 6 and Splus <= 8:
+            level = 2
+        elif Splus >= 9:
+            level = 3
+        else:
+            level = 0
+        if mergetpe == MergeType[0] and UserData[0] >= CAmount[level]:
+            UserData[0] -= CAmount[level]
             UserData[1] += 1
             with open(f"{ctx.user.id}.pkl", "wb") as f:
                 pickle.dump(UserData, f)
             embed = discord.Embed(title="합성 완료", description="")
-            embed.add_field(name="", value="C 카드 150개를 B 1개로 합성하였습니다.", inline=False)
+            embed.add_field(
+                name="", value=f"C 카드 {CAmount[level]}개를 B 1개로 합성하였습니다.", inline=False
+            )
             await ctx.respond(embed=embed)
-        elif mergetpe == MergeType[1] and UserData[1] >= 100:
-            UserData[1] -= 100
+        elif mergetpe == MergeType[1] and UserData[1] >= BAmount[level]:
+            UserData[1] -= BAmount[level]
             UserData[2] += 1
             with open(f"{ctx.user.id}.pkl", "wb") as f:
                 pickle.dump(UserData, f)
             embed = discord.Embed(title="합성 완료", description="")
-            embed.add_field(name="", value="B 카드 100개를 A 1개로 합성하였습니다.", inline=False)
+            embed.add_field(
+                name="", value=f"B 카드 {BAmount[level]}개를 A 1개로 합성하였습니다.", inline=False
+            )
             await ctx.respond(embed=embed)
-        elif mergetpe == MergeType[2] and UserData[2] >= 50:
-            UserData[2] -= 50
+        elif mergetpe == MergeType[2] and UserData[2] >= AAmount[level]:
+            UserData[2] -= AAmount[level]
             UserData[3] += 1
             with open(f"{ctx.user.id}.pkl", "wb") as f:
                 pickle.dump(UserData, f)
             embed = discord.Embed(title="합성 완료", description="")
-            embed.add_field(name="", value="A 카드 50개를 S 1개로 합성하였습니다.", inline=False)
+            embed.add_field(
+                name="", value=f"A 카드 {AAmount[level]}개를 S 1개로 합성하였습니다.", inline=False
+            )
             await ctx.respond(embed=embed)
         else:
             embed = discord.Embed(title="개수 부족", description="")
