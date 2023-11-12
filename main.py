@@ -95,14 +95,14 @@ async def 탈퇴(ctx):
         await ctx.respond(embed=embed)
 
 
-@bot.slash_command(description="가챠 기록을 확인합니다.")
+@bot.slash_command(description="본인의 정보를 확인합니다.")
 async def 정보(ctx):
     if os.path.isfile(f"{ctx.user.id}.pkl"):
         with open(f"{ctx.user.id}.pkl", "rb") as f:
             UserData = pickle.load(f)
         embed = discord.Embed(title="유저 정보", description="")
         embed.add_field(name="ID", value=f"`{ctx.user.id}`", inline=True)
-        embed.add_field(name="레벨", value=f"레벨 {UserData[4]}", inline=True)
+        embed.add_field(name="레벨", value=f"레벨 {UserData[4]+1}", inline=True)
         embed.add_field(
             name="인벤토리",
             value=f"""C: {UserData[0]}
