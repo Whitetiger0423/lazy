@@ -193,11 +193,11 @@ MergeType = ["C 150 -> B 1", "B 100 -> A 1", "A 50 -> S 1"]
 
 
 @bot.slash_command(description="카드 합성을 진행합니다.")
-async def 합성(ctx, type: discord.Option(str, "합성할 종류를 선택하세요.", choices=MergeType)):
+async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택하세요.", choices=MergeType)):
     if os.path.isfile(f"{ctx.user.id}.pkl"):
         with open(f"{ctx.user.id}.pkl", "rb") as f:
             UserData = pickle.load(f)
-        if type == MergeType[0] and UserData[0] >= 150:
+        if mergetpe == MergeType[0] and UserData[0] >= 150:
             UserData[0] -= 150
             UserData[1] += 1
             with open(f"{ctx.user.id}.pkl", "wb") as f:
@@ -205,7 +205,7 @@ async def 합성(ctx, type: discord.Option(str, "합성할 종류를 선택하�
             embed = discord.Embed(title="합성 완료", description="")
             embed.add_field(name="", value="C 카드 150개를 B 1개로 합성하였습니다.", inline=False)
             await ctx.respond(embed=embed)
-        elif type == MergeType[1] and UserData.count[1] >= 100:
+        elif mergetpe == MergeType[1] and UserData[1] >= 100:
             UserData[1] -= 100
             UserData[2] += 1
             with open(f"{ctx.user.id}.pkl", "wb") as f:
@@ -213,7 +213,7 @@ async def 합성(ctx, type: discord.Option(str, "합성할 종류를 선택하�
             embed = discord.Embed(title="합성 완료", description="")
             embed.add_field(name="", value="B 카드 100개를 A 1개로 합성하였습니다.", inline=False)
             await ctx.respond(embed=embed)
-        elif type == MergeType[0] and UserData.count[2] >= 50:
+        elif mergetpe == MergeType[2] and UserData[2] >= 50:
             UserData[2] -= 50
             UserData[3] += 1
             with open(f"{ctx.user.id}.pkl", "wb") as f:
