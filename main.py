@@ -121,6 +121,13 @@ B: {UserData[1]}
 
 def Gacha(x, UserID):
     result = []
+    CRate = [60, 50, 40, 40, 30, 20, 20, 20, 20, 20, 20]
+    BRate = [25, 30, 35, 35, 40, 45, 45, 40, 35, 35, 30]
+    ARate = [13, 15, 17, 17, 20, 22, 22, 25, 27, 27, 30]
+    SRate = [2, 5, 8, 8, 10, 13, 13, 15, 18, 18, 20]
+    with open(f"{UserID}.pkl", "rb") as f:
+        UserData = pickle.load(f)
+
     for i in range(x):
         item = random.randint(0, 100)
         if item <= 60:
@@ -131,8 +138,6 @@ def Gacha(x, UserID):
             result.append("A")
         else:
             result.append("S")
-    with open(f"{UserID}.pkl", "rb") as f:
-        UserData = pickle.load(f)
     UserData[0] += result.count("C")
     UserData[1] += result.count("B")
     UserData[2] += result.count("A")
@@ -280,7 +285,7 @@ async def 강화(
             with open(f"{ctx.user.id}.pkl", "wb") as f:
                 pickle.dump(UserData, f)
             await ctx.respond(embed=embed)
-        elif enforcetpe == EnforceType[3] and UserData[4] >= 23:
+        elif enforcetpe == EnforceType[3] and UserData[3] >= 23:
             UserData[3] -= 23
             UserData[4] += 1
             embed = discord.Embed(title="강화 완료", description="")
