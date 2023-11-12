@@ -227,7 +227,6 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                 inline=False,
             )
             embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
-            await ctx.respond(embed=embed)
 
             class Button(discord.ui.View):
                 @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
@@ -258,6 +257,8 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                         self.disable_all_items()
                         await interaction.response.edit_message(view=self)
 
+            await ctx.respond(embed=embed, view=Button())
+
         elif mergetpe == MergeType[1] and UserData[1] >= BAmount[level]:
             embed = discord.Embed(title="합성", description="")
             embed.add_field(
@@ -266,7 +267,6 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                 inline=False,
             )
             embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
-            await ctx.respond(embed=embed)
 
             class Button(discord.ui.View):
                 @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
@@ -297,6 +297,8 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                         self.disable_all_items()
                         await interaction.response.edit_message(view=self)
 
+            await ctx.respond(embed=embed, view=Button())
+
         elif mergetpe == MergeType[2] and UserData[2] >= AAmount[level]:
             embed = discord.Embed(title="합성", description="")
             embed.add_field(
@@ -305,7 +307,6 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                 inline=False,
             )
             embed.set_footer(text="tip: 합성 확률은 100%입니다. S+ 카드의 개수가 많아질수록 조건이 좋아집니다.")
-            await ctx.respond(embed=embed)
 
             class Button(discord.ui.View):
                 @discord.ui.button(label="합성", style=discord.ButtonStyle.primary)
@@ -335,6 +336,8 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                         await ctx.respond(embed=embed)
                         self.disable_all_items()
                         await interaction.response.edit_message(view=self)
+
+            await ctx.respond(embed=embed, view=Button())
 
     else:
         embed = discord.Embed(title="등록되지 않은 유저", description="")
