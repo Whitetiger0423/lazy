@@ -239,7 +239,7 @@ EnforceType = ["S 10", "S 15", "S 20", "S 23"]
 
 @bot.slash_command(description="카드 강화를 진행합니다.")
 async def 강화(
-    ctx, enforcetpe: discord.Option(str, "강화 재료의 개수를 선택하세요.", choices=MergeType)
+    ctx, enforcetpe: discord.Option(str, "강화 재료의 개수를 선택하세요.", choices=EnforceType)
 ):
     if os.path.isfile(f"{ctx.user.id}.pkl"):
         with open(f"{ctx.user.id}.pkl", "rb") as f:
