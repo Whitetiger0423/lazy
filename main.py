@@ -2,12 +2,10 @@ import pickle
 import random
 import os
 import discord
+import dotenv
 
 bot = discord.Bot()
-token = "MTE3Mjg2NzQ3MjU2Nzg0NDk2NQ.G2DEfI.gb3ZMyMsAgaMzvahL4wDufrTq9-7gydnyS9b9k"
-
-
-# 확률: C60 B25 A13 S2
+dotenv.load_dotenv()
 
 
 @bot.event
@@ -644,4 +642,4 @@ B: {result.count('B')}
         await ctx.respond(embed=embed)
 
 
-bot.run(token)
+bot.run(os.getenv("BOT_TOKEN"))
