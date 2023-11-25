@@ -105,11 +105,11 @@ async def 정보(ctx):
         embed.add_field(name="레벨", value=f"레벨 {UserData[4]+1}", inline=True)
         embed.add_field(
             name="인벤토리",
-            value=f"""C: {UserData[0]}
-B: {UserData[1]}
-**A**: {UserData[2]}
-***S***: {UserData[3]}
-***S+***: {UserData[4]}""",
+            value=f"""<:tier_C:1174038477873086606>: {UserData[0]}
+<:tier_B:1174043776763842601>: {UserData[1]}
+<:tier_A:1174043843788812288>: {UserData[2]}
+<:tier_S:1174038704009007165>: {UserData[3]}
+<:tier_SPlus:1174042855182970952>: {UserData[4]}""",
             inline=False,
         )
         embed.set_footer(text="tip: 강화를 통해 S+ 카드를 만들 수 있습니다. S+ 카드의 개수로 레벨이 결정됩니다.")
@@ -168,7 +168,7 @@ async def 가챠(ctx):
                     embed = discord.Embed(title="1회 가챠 결과", description="")
                     embed.add_field(
                         name=f"",
-                        value=f"{' '.join(result).replace('C', '`C`').replace('B', '`B`').replace('A', '**`A`**').replace('S', '***`S`***')}",
+                        value=f"{' '.join(result).replace('C', '<:tier_C:1174038477873086606>').replace('B', '<:tier_B:1174043776763842601>').replace('A', '<:tier_A:1174043843788812288>').replace('S', '<:tier_S:1174038704009007165>')}",
                         inline=False,
                     )
                     embed.set_footer(text="tip: 이전 포함 전체 결과는 `/정보` 명령어를 통해 확인할 수 있습니다.")
@@ -185,7 +185,7 @@ async def 가챠(ctx):
                     embed = discord.Embed(title="10회 가챠 결과", description="")
                     embed.add_field(
                         name=f"",
-                        value=f"{' '.join(result).replace('C', '`C`').replace('B', '`B`').replace('A', '**`A`**').replace('S', '***`S`***')}",
+                        value=f"{' '.join(result).replace('C', '<:tier_C:1174038477873086606>').replace('B', '<:tier_B:1174043776763842601>').replace('A', '<:tier_A:1174043843788812288>').replace('S', '<:tier_S:1174038704009007165>')}",
                         inline=False,
                     )
                     embed.set_footer(text="tip: 이전 포함 전체 결과는 `/정보` 명령어를 통해 확인할 수 있습니다.")
@@ -225,7 +225,8 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
             embed = discord.Embed(title="합성", description="")
             embed.add_field(
                 name="",
-                value=f"C 카드 {CAmount[level]}개를 B 카드 1개로 합성합니다. 버튼을 누르면 합성을 진행합니다.",
+                value=f"""<:tier_C:1174038477873086606> × {CAmount[level]} → <:tier_B:1174043776763842601>
+버튼을 누르면 합성을 진행합니다.""",
                 inline=False,
             )
             embed.set_footer(text="tip: 합성 확률은 100%입니다. 레벨이 높아질수록 조건이 좋아집니다.")
@@ -244,7 +245,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                             embed = discord.Embed(title="합성 완료", description="")
                             embed.add_field(
                                 name="",
-                                value=f"C 카드 {CAmount[level]}개를 B 카드 1개로 합성하였습니다.",
+                                value=f":sparkles: <:tier_C:1174038477873086606> × {CAmount[level]} → <:tier_B:1174043776763842601>",
                                 inline=False,
                             )
                             embed.set_footer(
@@ -265,7 +266,8 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
             embed = discord.Embed(title="합성", description="")
             embed.add_field(
                 name="",
-                value=f"B 카드 {BAmount[level]}개를 A 카드 1개로 합성합니다. 버튼을 누르면 합성을 진행합니다.",
+                value=f"""<:tier_B:1174043776763842601> × {BAmount[level]} → <:tier_A:1174043843788812288>
+버튼을 누르면 합성을 진행합니다.""",
                 inline=False,
             )
             embed.set_footer(text="tip: 합성 확률은 100%입니다. 레벨이 높아질수록 조건이 좋아집니다.")
@@ -284,7 +286,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                             embed = discord.Embed(title="합성 완료", description="")
                             embed.add_field(
                                 name="",
-                                value=f"B 카드 {BAmount[level]}개를 A 카드 1개로 합성하였습니다.",
+                                value=f":sparkles: <:tier_B:1174043776763842601> × {BAmount[level]} → <:tier_A:1174043843788812288>",
                                 inline=False,
                             )
                             embed.set_footer(
@@ -305,7 +307,8 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
             embed = discord.Embed(title="합성", description="")
             embed.add_field(
                 name="",
-                value=f"A 카드 {AAmount[level]}개를 S 카드 1개로 합성합니다. 버튼을 누르면 합성을 진행합니다.",
+                value=f"""<:tier_A:1174043843788812288> × {AAmount[level]} → <:tier_S:1174038704009007165>
+버튼을 누르면 합성을 진행합니다.""",
                 inline=False,
             )
             embed.set_footer(text="tip: 합성 확률은 100%입니다. 레벨이 높아질수록 조건이 좋아집니다.")
@@ -324,7 +327,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                             embed = discord.Embed(title="합성 완료", description="")
                             embed.add_field(
                                 name="",
-                                value=f"A 카드 {AAmount[level]}개를 S 카드 1개로 합성하였습니다.",
+                                value=f":sparkles: <:tier_A:1174043843788812288> × {AAmount[level]} → <:tier_S:1174038704009007165>",
                                 inline=False,
                             )
                             embed.set_footer(
@@ -361,7 +364,8 @@ async def 강화(
             embed = discord.Embed(title="강화", description="")
             embed.add_field(
                 name="",
-                value=f"S 카드 10개를 S+ 카드 1개로 합성합니다. 확률은 30%입니다.",
+                value=f"""<:tier_S:1174038704009007165> × 10 → <:tier_SPlus:1174042855182970952>
+확률은 30%입니다.""",
                 inline=False,
             )
             embed.set_footer(text="tip: S카드 23개를 이용하면 강화 성공확률이 100%가 됩니다.")
@@ -376,16 +380,19 @@ async def 강화(
                             UserData[3] -= 10
                             if random.randint(1, 10) <= 3:
                                 UserData[4] += 1
-                                embed = discord.Embed(title="강화 완료", description="")
+                                embed = discord.Embed(title="강화 성공", description="")
                                 embed.add_field(
                                     name="",
-                                    value="30%의 확률로 S+ 카드로 강화되었습니다.",
+                                    value=":sparkles: 30%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
                                     inline=False,
                                 )
                             else:
                                 embed = discord.Embed(title="강화 실패", description="")
                                 embed.add_field(
-                                    name="", value="강화에 실패하였습니다..", inline=False
+                                    name="",
+                                    value=""":boom: <:tier_S:1174038704009007165> × 10 
+강화에 실패하였습니다..""",
+                                    inline=False,
                                 )
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
@@ -403,7 +410,8 @@ async def 강화(
             embed = discord.Embed(title="강화", description="")
             embed.add_field(
                 name="",
-                value=f"S 카드 15개를 S+ 카드 1개로 합성합니다. 확률은 60%입니다.",
+                value=f"""<:tier_S:1174038704009007165> × 15 → <:tier_SPlus:1174042855182970952>
+확률은 60%입니다.""",
                 inline=False,
             )
             embed.set_footer(text="tip: S카드 23개를 이용하면 강화 성공확률이 100%가 됩니다.")
@@ -418,16 +426,19 @@ async def 강화(
                             UserData[3] -= 15
                             if random.randint(1, 10) <= 6:
                                 UserData[4] += 1
-                                embed = discord.Embed(title="강화 완료", description="")
+                                embed = discord.Embed(title="강화 성공", description="")
                                 embed.add_field(
                                     name="",
-                                    value="60%의 확률로 S+ 카드로 강화되었습니다.",
+                                    value=":sparkles: 60%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
                                     inline=False,
                                 )
                             else:
                                 embed = discord.Embed(title="강화 실패", description="")
                                 embed.add_field(
-                                    name="", value="강화에 실패하였습니다..", inline=False
+                                    name="",
+                                    value="""":boom: <:tier_S:1174038704009007165> × 15
+강화에 실패하였습니다..""",
+                                    inline=False,
                                 )
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
@@ -445,7 +456,8 @@ async def 강화(
             embed = discord.Embed(title="강화", description="")
             embed.add_field(
                 name="",
-                value=f"S 카드 20개를 S+ 카드 1개로 합성합니다. 확률은 90%입니다.",
+                value=f"""<:tier_S:1174038704009007165> × 20 → <:tier_SPlus:1174042855182970952>
+확률은 90%입니다.""",
                 inline=False,
             )
             embed.set_footer(text="tip: S카드 23개를 이용하면 강화 성공확률이 100%가 됩니다.")
@@ -460,16 +472,19 @@ async def 강화(
                             UserData[3] -= 20
                             if random.randint(1, 10) <= 9:
                                 UserData[4] += 1
-                                embed = discord.Embed(title="강화 완료", description="")
+                                embed = discord.Embed(title="강화 성공", description="")
                                 embed.add_field(
                                     name="",
-                                    value="90%의 확률로 S+ 카드로 강화되었습니다.",
+                                    value=":sparkles: 90%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
                                     inline=False,
                                 )
                             else:
                                 embed = discord.Embed(title="강화 실패", description="")
                                 embed.add_field(
-                                    name="", value="강화에 실패하였습니다..", inline=False
+                                    name="",
+                                    value=""":boom: <:tier_S:1174038704009007165> × 20 
+강화에 실패하였습니다..""",
+                                    inline=False,
                                 )
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
@@ -487,7 +502,8 @@ async def 강화(
             embed = discord.Embed(title="강화", description="")
             embed.add_field(
                 name="",
-                value=f"S 카드 23개를 S+ 카드 1개로 합성합니다. 확률은 100%입니다.",
+                value=f"""<:tier_S:1174038704009007165> × 23 → <:tier_SPlus:1174042855182970952>
+확률은 100%입니다.""",
                 inline=False,
             )
             embed.set_footer(text="tip: S카드 23개를 이용하면 강화 성공확률이 100%가 됩니다.. 이미 하셨군요!")
@@ -501,9 +517,11 @@ async def 강화(
                         if UserData[3] >= 23:
                             UserData[3] -= 23
                             UserData[4] += 1
-                            embed = discord.Embed(title="강화 완료", description="")
+                            embed = discord.Embed(title="강화 성공", description="")
                             embed.add_field(
-                                name="", value="100%의 확률로 S+ 카드로 강화되었습니다.", inline=False
+                                name="",
+                                value=":sparkles: 100%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
+                                inline=False,
                             )
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
