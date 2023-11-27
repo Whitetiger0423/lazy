@@ -167,8 +167,9 @@ async def 정보(ctx):
         )
         embed.add_field(
             name="버프 적용 상태",
-            value=f"{buff}"
+            value=f"{buff}",
             inline=False
+        )
         embed.set_footer(text="tip: 강화를 통해 S+ 카드를 만들 수 있습니다. S+ 카드의 개수로 레벨이 결정됩니다.")
     else:
         embed = discord.Embed(title="등록되지 않은 유저", description="")
