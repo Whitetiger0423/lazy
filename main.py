@@ -33,7 +33,7 @@ async def 등록(ctx):
                     new_embed = discord.Embed(
                         title="등록 완료", description=""
                     )
-                    embed.add_field(
+                    new_embed.add_field(
                         name="", value=f"<@!{interaction.user.id}>님, 등록을 완료하였습니다. 아이디는 {interaction.user.id}입니다."
                     )
                     self.disable_all_items()
@@ -47,7 +47,7 @@ async def 등록(ctx):
                     new_embed = discord.Embed(
                         title="등록 취소", description=""
                     )
-                    embed.add_field(
+                    new_embed.add_field(
                         name="", value=f"등록이 취소되었습니다."
                     )
                     self.disable_all_items()
@@ -82,7 +82,7 @@ async def 탈퇴(ctx):
                     new_embed = discord.Embed(
                         title="탈퇴 완료", description=""
                     )
-                    embed.add_field(
+                    new_embed.add_field(
                         name="", value=f"<@!{interaction.user.id}>님, 탈퇴를 완료하였습니다."
                     )
                     self.disable_all_items()
@@ -96,7 +96,7 @@ async def 탈퇴(ctx):
                     new_embed = discord.Embed(
                         title="탈퇴 취소", description=""
                     )
-                    embed.add_field(
+                    new_embed.add_field(
                         name="", value=f"탈퇴가 취소되었습니다."
                     )
                     self.disable_all_items()
