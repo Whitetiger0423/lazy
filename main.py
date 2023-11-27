@@ -127,6 +127,8 @@ async def 정보(ctx):
         BRate = [25, 30, 35, 35, 40, 45, 45, 40, 35, 35, 30]
         ARate = [13, 15, 17, 17, 20, 22, 22, 25, 27, 27, 30]
         SRate = [2, 5, 8, 8, 10, 13, 13, 15, 18, 18, 20]
+        if Splus >= 10: Splus = 10
+        BuffList = [Splus-level, level]
         rate = f"""<:tier_C:1174038477873086606>: {CRate[Splus]}%
 <:tier_B:1174043776763842601>: {BRate[Splus]}%
 <:tier_A:1174043843788812288>: {ARate[Splus]}%
@@ -134,8 +136,13 @@ async def 정보(ctx):
         merge = f"""<:tier_C:1174038477873086606> × {CAmount[level]} → <:tier_B:1174043776763842601>
 <:tier_B:1174043776763842601> × {BAmount[level]} → <:tier_A:1174043843788812288>
 <:tier_A:1174043843788812288> × {AAmount[level]} → <:tier_S:1174038704009007165>"""
-        buff = """
-"""
+        if Splus == 0:
+            buff = '없음'
+        elif level == 0:
+            buff = f"확률 보정 × {BuffList[0]}"
+        else:
+            buff = f"""확률 보정 × {BuffList[0]}
+합성 개수 완화 × {BuffList[0]}"""
         embed = discord.Embed(title="유저 정보", description="")
         embed.add_field(name="ID", value=f"`{ctx.user.id}`", inline=True)
         embed.add_field(name="레벨", value=f"레벨 {UserData[4]+1}", inline=True)
@@ -158,6 +165,10 @@ async def 정보(ctx):
             value=f"{merge}",
             inline=True
         )
+        embed.add_field(
+            name="버프 적용 상태",
+            value=f"{buff}"
+            inline=False
         embed.set_footer(text="tip: 강화를 통해 S+ 카드를 만들 수 있습니다. S+ 카드의 개수로 레벨이 결정됩니다.")
     else:
         embed = discord.Embed(title="등록되지 않은 유저", description="")
