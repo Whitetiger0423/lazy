@@ -31,7 +31,7 @@ async def 등록(ctx):
                     with open(f"{interaction.user.id}.pkl", "wb") as f:
                         pickle.dump(UserData, f)
                     await ctx.respond(
-                        f"<@!{interaction.user.id}>님, 등록을 완료하였습니다. 아이디는 {interaction.user.id}입니다."
+                        f"<@!{interaction.user.id}>님, 등록을 완료하였습니다. 아이디는 {interaction.user.id}입니다.", ephemeral=True
                     )
                     self.disable_all_items()
                     await interaction.response.edit_message(view=self)
@@ -41,7 +41,7 @@ async def 등록(ctx):
                 self, button: discord.ui.Button, interaction: discord.Interaction
             ):
                 if interaction.user.id == ctx.user.id:
-                    await ctx.respond(f"등록을 취소하였습니다.")
+                    await ctx.respond(f"등록을 취소하였습니다.", ephemeral=True)
                     self.disable_all_items()
                     await interaction.response.edit_message(view=self)
 
@@ -72,7 +72,7 @@ async def 탈퇴(ctx):
             ):
                 if interaction.user.id == ctx.user.id:
                     os.remove(f"{interaction.user.id}.pkl")
-                    await ctx.respond(f"<@!{interaction.user.id}>님, 탈퇴가 완료되었습니다.")
+                    await ctx.respond(f"<@!{interaction.user.id}>님, 탈퇴가 완료되었습니다.", ephemeral=True)
                     self.disable_all_items()
                     await interaction.response.edit_message(view=self)
 
@@ -81,7 +81,7 @@ async def 탈퇴(ctx):
                 self, button: discord.ui.Button, interaction: discord.Interaction
             ):
                 if interaction.user.id == ctx.user.id:
-                    await ctx.respond(f"탈퇴를 취소하였습니다.")
+                    await ctx.respond(f"탈퇴를 취소하였습니다.", ephemeral=True)
                     self.disable_all_items()
                     await interaction.response.edit_message(view=self)
 
@@ -639,7 +639,7 @@ B: {result.count('B')}
         embed.add_field(
             name="", value="개발자가 아닙니다. 확인 후 다시 사용해주세요. 개발자가 맞다면 등록이 되어있는지 확인해주세요."
         )
-        await ctx.respond(embed=embed)
+        await ctx.respond(embed=embed, ephemeral=True)
 
 
 bot.run(os.getenv("BOT_TOKEN"))
