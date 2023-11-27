@@ -30,21 +30,28 @@ async def 등록(ctx):
                 if interaction.user.id == ctx.user.id:
                     with open(f"{interaction.user.id}.pkl", "wb") as f:
                         pickle.dump(UserData, f)
-                    await ctx.respond(
-                        f"<@!{interaction.user.id}>님, 등록을 완료하였습니다. 아이디는 {interaction.user.id}입니다.", ephemeral=True
+                    new_embed = discord.Embed(
+                        title="등록 완료", description=""
+                    )
+                    embed.add_field(
+                        name="", value=f"<@!{interaction.user.id}>님, 등록을 완료하였습니다. 아이디는 {interaction.user.id}입니다."
                     )
                     self.disable_all_items()
-                    await interaction.response.edit_message(view=self)
+                    await interaction.response.edit_message(view=self, embed=new_embed)
 
             @discord.ui.button(label="❌ 취소", style=discord.ButtonStyle.danger)
             async def danger(
                 self, button: discord.ui.Button, interaction: discord.Interaction
             ):
                 if interaction.user.id == ctx.user.id:
-                    await ctx.respond(f"등록을 취소하였습니다.", ephemeral=True)
+                    new_embed = discord.Embed(
+                        title="등록 취소", description=""
+                    )
+                    embed.add_field(
+                        name="", value=f"등록이 취소되었습니다."
+                    )
                     self.disable_all_items()
-                    await interaction.response.edit_message(view=self)
-
+                    await interaction.response.edit_message(view=self, embed=new_embed)
         await ctx.respond(embed=embed, view=Button())
 
     else:
@@ -72,18 +79,28 @@ async def 탈퇴(ctx):
             ):
                 if interaction.user.id == ctx.user.id:
                     os.remove(f"{interaction.user.id}.pkl")
-                    await ctx.respond(f"<@!{interaction.user.id}>님, 탈퇴가 완료되었습니다.", ephemeral=True)
+                    new_embed = discord.Embed(
+                        title="탈퇴 완료", description=""
+                    )
+                    embed.add_field(
+                        name="", value=f"<@!{interaction.user.id}>님, 탈퇴를 완료하였습니다."
+                    )
                     self.disable_all_items()
-                    await interaction.response.edit_message(view=self)
+                    await interaction.response.edit_message(view=self, embed=new_embed)
 
             @discord.ui.button(label="❌ 취소", style=discord.ButtonStyle.danger)
             async def danger(
                 self, button: discord.ui.Button, interaction: discord.Interaction
             ):
                 if interaction.user.id == ctx.user.id:
-                    await ctx.respond(f"탈퇴를 취소하였습니다.", ephemeral=True)
+                    new_embed = discord.Embed(
+                        title="탈퇴 취소", description=""
+                    )
+                    embed.add_field(
+                        name="", value=f"탈퇴가 취소되었습니다."
+                    )
                     self.disable_all_items()
-                    await interaction.response.edit_message(view=self)
+                    await interaction.response.edit_message(view=self, embed=new_embed)
 
         await ctx.respond(embed=embed, view=Button())
 
