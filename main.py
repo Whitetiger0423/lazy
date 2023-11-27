@@ -142,7 +142,7 @@ async def 정보(ctx):
             buff = f"확률 보정 × {BuffList[0]}"
         else:
             buff = f"""확률 보정 × {BuffList[0]}
-합성 개수 완화 × {BuffList[0]}"""
+합성 개수 완화 × {BuffList[1]}"""
         embed = discord.Embed(title="유저 정보", description="")
         embed.add_field(name="ID", value=f"`{ctx.user.id}`", inline=True)
         embed.add_field(name="레벨", value=f"레벨 {UserData[4]+1}", inline=True)
