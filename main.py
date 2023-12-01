@@ -7,6 +7,12 @@ import dotenv
 bot = discord.Bot()
 dotenv.load_dotenv()
 
+CEmoji = "<:tier_C:1174038477873086606>"
+BEmoji = "<:tier_B:1174043776763842601>"
+AEmoji = "<:tier_A:1174043843788812288>"
+SEmoji = "<:tier_S:1174038704009007165>"
+SPlEmoji = "<:tier_SPlus:1174042855182970952>"
+EmojiList = [CEmoji, BEmoji, AEmoji, SEmoji, SPlEmoji]
 
 @bot.event
 async def on_ready():
@@ -129,13 +135,13 @@ async def 정보(ctx):
         SRate = [2, 5, 8, 8, 10, 13, 13, 15, 18, 18, 20]
         if Splus >= 10: Splus = 10
         BuffList = [Splus-level, level]
-        rate = f"""<:tier_C:1174038477873086606>: {CRate[Splus]}%
-<:tier_B:1174043776763842601>: {BRate[Splus]}%
-<:tier_A:1174043843788812288>: {ARate[Splus]}%
-<:tier_S:1174038704009007165>: {SRate[Splus]}%"""
-        merge = f"""<:tier_C:1174038477873086606> × {CAmount[level]} → <:tier_B:1174043776763842601>
-<:tier_B:1174043776763842601> × {BAmount[level]} → <:tier_A:1174043843788812288>
-<:tier_A:1174043843788812288> × {AAmount[level]} → <:tier_S:1174038704009007165>"""
+        rate = f"""{EmojiList[0]}: {CRate[Splus]}%
+{EmojiList[1]}: {BRate[Splus]}%
+{{EmojiList[2]}}: {ARate[Splus]}%
+{EmojiList[3]}: {SRate[Splus]}%"""
+        merge = f"""{EmojiList[0]} × {CAmount[level]} → {EmojiList[1]}
+{EmojiList[1]} × {BAmount[level]} → {{EmojiList[2]}}
+{{EmojiList[2]}} × {AAmount[level]} → {EmojiList[3]}"""
         if Splus == 0:
             buff = '없음'
         elif level == 0:
@@ -148,11 +154,11 @@ async def 정보(ctx):
         embed.add_field(name="레벨", value=f"레벨 {UserData[4]+1}", inline=True)
         embed.add_field(
             name="인벤토리",
-            value=f"""<:tier_C:1174038477873086606>: {UserData[0]}
-<:tier_B:1174043776763842601>: {UserData[1]}
-<:tier_A:1174043843788812288>: {UserData[2]}
-<:tier_S:1174038704009007165>: {UserData[3]}
-<:tier_SPlus:1174042855182970952>: {UserData[4]}""",
+            value=f"""{EmojiList[0]}: {UserData[0]}
+{EmojiList[1]}: {UserData[1]}
+{{EmojiList[2]}}: {UserData[2]}
+{EmojiList[3]}: {UserData[3]}
+{EmojiList[4]}: {UserData[4]}""",
             inline=False,
         )
         embed.add_field(
@@ -226,7 +232,7 @@ async def 가챠(ctx):
                     new_embed = discord.Embed(title="1회 가챠 결과", description="")
                     new_embed.add_field(
                         name=f"",
-                        value=f"{' '.join(result).replace('C', '<:tier_C:1174038477873086606>').replace('B', '<:tier_B:1174043776763842601>').replace('A', '<:tier_A:1174043843788812288>').replace('S', '<:tier_S:1174038704009007165>')}",
+                        value=f"{' '.join(result).replace('C', f'{EmojiList[0]}').replace('B', f'{EmojiList[1]}').replace('A', f'{EmojiList[2]}').replace('S', f'{EmojiList[3]}')}",
                         inline=False,
                     )
                     new_embed.set_footer(text="tip: 이전 포함 전체 결과는 `/정보` 명령어를 통해 확인할 수 있습니다.")
@@ -242,7 +248,7 @@ async def 가챠(ctx):
                     new_embed = discord.Embed(title="10회 가챠 결과", description="")
                     new_embed.add_field(
                         name=f"",
-                        value=f"{' '.join(result).replace('C', '<:tier_C:1174038477873086606>').replace('B', '<:tier_B:1174043776763842601>').replace('A', '<:tier_A:1174043843788812288>').replace('S', '<:tier_S:1174038704009007165>')}",
+                        value=f"{' '.join(result).replace('C', f'{EmojiList[0]}').replace('B', f'{EmojiList[1]}').replace('A', f'{EmojiList[2]}').replace('S', f'{EmojiList[3]}')}",
                         inline=False,
                     )
                     new_embed.set_footer(text="tip: 이전 포함 전체 결과는 `/정보` 명령어를 통해 확인할 수 있습니다.")
@@ -281,7 +287,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
             embed = discord.Embed(title="합성", description="")
             embed.add_field(
                 name="",
-                value=f"""<:tier_C:1174038477873086606> × {CAmount[level]} → <:tier_B:1174043776763842601>
+                value=f"""{EmojiList[0]} × {CAmount[level]} → {EmojiList[1]}
 버튼을 누르면 합성을 진행합니다.""",
                 inline=False,
             )
@@ -301,7 +307,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                             new_embed = discord.Embed(title="합성 완료", description="")
                             new_embed.add_field(
                                 name="",
-                                value=f":sparkles: <:tier_C:1174038477873086606> × {CAmount[level]} → <:tier_B:1174043776763842601>",
+                                value=f":sparkles: {EmojiList[0]} × {CAmount[level]} → {EmojiList[1]}",
                                 inline=False,
                             )
                             new_embed.set_footer(
@@ -321,7 +327,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
             embed = discord.Embed(title="합성", description="")
             embed.add_field(
                 name="",
-                value=f"""<:tier_B:1174043776763842601> × {BAmount[level]} → <:tier_A:1174043843788812288>
+                value=f"""{EmojiList[1]} × {BAmount[level]} → {EmojiList[2]}
 버튼을 누르면 합성을 진행합니다.""",
                 inline=False,
             )
@@ -341,7 +347,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                             new_embed = discord.Embed(title="합성 완료", description="")
                             new_embed.add_field(
                                 name="",
-                                value=f":sparkles: <:tier_B:1174043776763842601> × {BAmount[level]} → <:tier_A:1174043843788812288>",
+                                value=f":sparkles: {EmojiList[1]} × {BAmount[level]} → {EmojiList[2]}",
                                 inline=False,
                             )
                             new_embed.set_footer(
@@ -361,7 +367,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
             embed = discord.Embed(title="합성", description="")
             embed.add_field(
                 name="",
-                value=f"""<:tier_A:1174043843788812288> × {AAmount[level]} → <:tier_S:1174038704009007165>
+                value=f"""{EmojiList[2]} × {AAmount[level]} → {EmojiList[3]}
 버튼을 누르면 합성을 진행합니다.""",
                 inline=False,
             )
@@ -381,7 +387,7 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                             new_embed = discord.Embed(title="합성 완료", description="")
                             new_embed.add_field(
                                 name="",
-                                value=f":sparkles: <:tier_A:1174043843788812288> × {AAmount[level]} → <:tier_S:1174038704009007165>",
+                                value=f":sparkles: {EmojiList[2]} × {AAmount[level]} → {EmojiList[3]}",
                                 inline=False,
                             )
                             new_embed.set_footer(
@@ -417,7 +423,7 @@ async def 강화(
             embed = discord.Embed(title="강화", description="")
             embed.add_field(
                 name="",
-                value=f"""<:tier_S:1174038704009007165> × 10 → <:tier_SPlus:1174042855182970952>
+                value=f"""{EmojiList[3]} × 10 → {EmojiList[4]}
 확률은 30%입니다.""",
                 inline=False,
             )
@@ -436,14 +442,14 @@ async def 강화(
                                 new_embed = discord.Embed(title="강화 성공", description="")
                                 new_embed.add_field(
                                     name="",
-                                    value=":sparkles: 30%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
+                                    value=f":sparkles: 30%의 확률로 {EmojiList[4]}를 얻었습니다.",
                                     inline=False,
                                 )
                             else:
                                 new_embed = discord.Embed(title="강화 실패", description="")
                                 new_embed.add_field(
                                     name="",
-                                    value=""":boom: <:tier_S:1174038704009007165> × 10 
+                                    value=""":boom: {EmojiList[3]} × 10 
 강화에 실패하였습니다..""",
                                     inline=False,
                                 )
@@ -462,7 +468,7 @@ async def 강화(
             embed = discord.Embed(title="강화", description="")
             embed.add_field(
                 name="",
-                value=f"""<:tier_S:1174038704009007165> × 15 → <:tier_SPlus:1174042855182970952>
+                value=f"""{EmojiList[3]} × 15 → {EmojiList[4]}
 확률은 60%입니다.""",
                 inline=False,
             )
@@ -481,14 +487,14 @@ async def 강화(
                                 new_embed = discord.Embed(title="강화 성공", description="")
                                 new_embed.add_field(
                                     name="",
-                                    value=":sparkles: 60%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
+                                    value=f":sparkles: 60%의 확률로 {EmojiList[4]}를 얻었습니다.",
                                     inline=False,
                                 )
                             else:
                                 new_embed = discord.Embed(title="강화 실패", description="")
                                 new_embed.add_field(
                                     name="",
-                                    value="""":boom: <:tier_S:1174038704009007165> × 15
+                                    value="""":boom: {EmojiList[3]} × 15
 강화에 실패하였습니다..""",
                                     inline=False,
                                 )
@@ -507,7 +513,7 @@ async def 강화(
             embed = discord.Embed(title="강화", description="")
             embed.add_field(
                 name="",
-                value=f"""<:tier_S:1174038704009007165> × 20 → <:tier_SPlus:1174042855182970952>
+                value=f"""{EmojiList[3]} × 20 → {EmojiList[4]}
 확률은 90%입니다.""",
                 inline=False,
             )
@@ -526,14 +532,14 @@ async def 강화(
                                 new_embed = discord.Embed(title="강화 성공", description="")
                                 new_embed.add_field(
                                     name="",
-                                    value=":sparkles: 90%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
+                                    value=f":sparkles: 90%의 확률로 {EmojiList[4]}를 얻었습니다.",
                                     inline=False,
                                 )
                             else:
                                 new_embed = discord.Embed(title="강화 실패", description="")
                                 new_embed.add_field(
                                     name="",
-                                    value=""":boom: <:tier_S:1174038704009007165> × 20 
+                                    value=""":boom: {EmojiList[3]} × 20 
 강화에 실패하였습니다..""",
                                     inline=False,
                                 )
@@ -552,7 +558,7 @@ async def 강화(
             embed = discord.Embed(title="강화", description="")
             embed.add_field(
                 name="",
-                value=f"""<:tier_S:1174038704009007165> × 23 → <:tier_SPlus:1174042855182970952>
+                value=f"""{EmojiList[3]} × 23 → {EmojiList[4]}
 확률은 100%입니다.""",
                 inline=False,
             )
@@ -570,7 +576,7 @@ async def 강화(
                             new_embed = discord.Embed(title="강화 성공", description="")
                             new_embed.add_field(
                                 name="",
-                                value=":sparkles: 100%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
+                                value=f":sparkles: 100%의 확률로 {EmojiList[4]}를 얻었습니다.",
                                 inline=False,
                             )
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
