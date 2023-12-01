@@ -223,16 +223,15 @@ async def 가챠(ctx):
             ):
                 if interaction.user.id == ctx.user.id:
                     result = Gacha(1, ctx.user.id)
-                    embed = discord.Embed(title="1회 가챠 결과", description="")
-                    embed.add_field(
+                    new_embed = discord.Embed(title="1회 가챠 결과", description="")
+                    new_embed.add_field(
                         name=f"",
                         value=f"{' '.join(result).replace('C', '<:tier_C:1174038477873086606>').replace('B', '<:tier_B:1174043776763842601>').replace('A', '<:tier_A:1174043843788812288>').replace('S', '<:tier_S:1174038704009007165>')}",
                         inline=False,
                     )
-                    embed.set_footer(text="tip: 이전 포함 전체 결과는 `/정보` 명령어를 통해 확인할 수 있습니다.")
-                    await ctx.respond(embed=embed)
+                    new_embed.set_footer(text="tip: 이전 포함 전체 결과는 `/정보` 명령어를 통해 확인할 수 있습니다.")
                     self.disable_all_items()
-                    await interaction.response.edit_message(view=self)
+                    await interaction.response.edit_message(embed=new_embed, view=self)
 
             @discord.ui.button(label="10회", style=discord.ButtonStyle.primary)
             async def TenTimes(
@@ -240,16 +239,15 @@ async def 가챠(ctx):
             ):
                 if interaction.user.id == ctx.user.id:
                     result = Gacha(10, ctx.user.id)
-                    embed = discord.Embed(title="10회 가챠 결과", description="")
-                    embed.add_field(
+                    new_embed = discord.Embed(title="10회 가챠 결과", description="")
+                    new_embed.add_field(
                         name=f"",
                         value=f"{' '.join(result).replace('C', '<:tier_C:1174038477873086606>').replace('B', '<:tier_B:1174043776763842601>').replace('A', '<:tier_A:1174043843788812288>').replace('S', '<:tier_S:1174038704009007165>')}",
                         inline=False,
                     )
-                    embed.set_footer(text="tip: 이전 포함 전체 결과는 `/정보` 명령어를 통해 확인할 수 있습니다.")
-                    await ctx.respond(embed=embed)
+                    new_embed.set_footer(text="tip: 이전 포함 전체 결과는 `/정보` 명령어를 통해 확인할 수 있습니다.")
                     self.disable_all_items()
-                    await interaction.response.edit_message(view=self)
+                    await interaction.response.edit_message(embed=new_embed, view=self)
 
         await ctx.respond(embed=embed, view=Button())
 
@@ -300,23 +298,22 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                             UserData[1] += 1
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
-                            embed = discord.Embed(title="합성 완료", description="")
-                            embed.add_field(
+                            new_embed = discord.Embed(title="합성 완료", description="")
+                            new_embed.add_field(
                                 name="",
                                 value=f":sparkles: <:tier_C:1174038477873086606> × {CAmount[level]} → <:tier_B:1174043776763842601>",
                                 inline=False,
                             )
-                            embed.set_footer(
+                            new_embed.set_footer(
                                 text="tip: 이전 포함 전체 결과는 /정보 명령어를 통해 확인할 수 있습니다."
                             )
                         else:
-                            embed = discord.Embed(title="합성 실패", description="")
-                            embed.add_field(
+                            new_embed = discord.Embed(title="합성 실패", description="")
+                            new_embed.add_field(
                                 name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
                             )
-                        await ctx.respond(embed=embed)
                         self.disable_all_items()
-                        await interaction.response.edit_message(view=self)
+                        await interaction.response.edit_message(embed=new_embed, view=self)
 
             await ctx.respond(embed=embed, view=Button())
 
@@ -341,23 +338,22 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                             UserData[2] += 1
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
-                            embed = discord.Embed(title="합성 완료", description="")
-                            embed.add_field(
+                            new_embed = discord.Embed(title="합성 완료", description="")
+                            new_embed.add_field(
                                 name="",
                                 value=f":sparkles: <:tier_B:1174043776763842601> × {BAmount[level]} → <:tier_A:1174043843788812288>",
                                 inline=False,
                             )
-                            embed.set_footer(
+                            new_embed.set_footer(
                                 text="tip: 이전 포함 전체 결과는 /정보 명령어를 통해 확인할 수 있습니다."
                             )
                         else:
-                            embed = discord.Embed(title="합성 실패", description="")
-                            embed.add_field(
+                            new_embed = discord.Embed(title="합성 실패", description="")
+                            new_embed.add_field(
                                 name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
                             )
-                        await ctx.respond(embed=embed)
                         self.disable_all_items()
-                        await interaction.response.edit_message(view=self)
+                        await interaction.response.edit_message(embed=new_embed, view=self)
 
             await ctx.respond(embed=embed, view=Button())
 
@@ -382,23 +378,22 @@ async def 합성(ctx, mergetpe: discord.Option(str, "합성할 종류를 선택�
                             UserData[3] += 1
                             with open(f"{ctx.user.id}.pkl", "wb") as f:
                                 pickle.dump(UserData, f)
-                            embed = discord.Embed(title="합성 완료", description="")
-                            embed.add_field(
+                            new_embed = discord.Embed(title="합성 완료", description="")
+                            new_embed.add_field(
                                 name="",
                                 value=f":sparkles: <:tier_A:1174043843788812288> × {AAmount[level]} → <:tier_S:1174038704009007165>",
                                 inline=False,
                             )
-                            embed.set_footer(
+                            new_embed.set_footer(
                                 text="tip: 이전 포함 전체 결과는 /정보 명령어를 통해 확인할 수 있습니다."
                             )
                         else:
-                            embed = discord.Embed(title="합성 실패", description="")
-                            embed.add_field(
+                            new_embed = discord.Embed(title="합성 실패", description="")
+                            new_embed.add_field(
                                 name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
                             )
-                        await ctx.respond(embed=embed)
                         self.disable_all_items()
-                        await interaction.response.edit_message(view=self)
+                        await interaction.response.edit_message(embed=new_embed, view=self)
 
             await ctx.respond(embed=embed, view=Button())
 
@@ -438,15 +433,15 @@ async def 강화(
                             UserData[3] -= 10
                             if random.randint(1, 10) <= 3:
                                 UserData[4] += 1
-                                embed = discord.Embed(title="강화 성공", description="")
-                                embed.add_field(
+                                new_embed = discord.Embed(title="강화 성공", description="")
+                                new_embed.add_field(
                                     name="",
                                     value=":sparkles: 30%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
                                     inline=False,
                                 )
                             else:
-                                embed = discord.Embed(title="강화 실패", description="")
-                                embed.add_field(
+                                new_embed = discord.Embed(title="강화 실패", description="")
+                                new_embed.add_field(
                                     name="",
                                     value=""":boom: <:tier_S:1174038704009007165> × 10 
 강화에 실패하였습니다..""",
@@ -459,9 +454,8 @@ async def 강화(
                             embed.add_field(
                                 name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
                             )
-                        await ctx.respond(embed=embed)
                         self.disable_all_items()
-                        await interaction.response.edit_message(view=self)
+                        await interaction.response.edit_message(embed=new_embed, view=self)
 
             await ctx.respond(embed=embed, view=Button())
         elif enforcetpe == EnforceType[1]:
@@ -484,15 +478,15 @@ async def 강화(
                             UserData[3] -= 15
                             if random.randint(1, 10) <= 6:
                                 UserData[4] += 1
-                                embed = discord.Embed(title="강화 성공", description="")
-                                embed.add_field(
+                                new_embed = discord.Embed(title="강화 성공", description="")
+                                new_embed.add_field(
                                     name="",
                                     value=":sparkles: 60%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
                                     inline=False,
                                 )
                             else:
-                                embed = discord.Embed(title="강화 실패", description="")
-                                embed.add_field(
+                                new_embed = discord.Embed(title="강화 실패", description="")
+                                new_embed.add_field(
                                     name="",
                                     value="""":boom: <:tier_S:1174038704009007165> × 15
 강화에 실패하였습니다..""",
@@ -505,9 +499,8 @@ async def 강화(
                             embed.add_field(
                                 name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
                             )
-                        await ctx.respond(embed=embed)
                         self.disable_all_items()
-                        await interaction.response.edit_message(view=self)
+                        await interaction.response.edit_message(embed=new_embed, view=self)
 
             await ctx.respond(embed=embed, view=Button())
         elif enforcetpe == EnforceType[2]:
@@ -530,15 +523,15 @@ async def 강화(
                             UserData[3] -= 20
                             if random.randint(1, 10) <= 9:
                                 UserData[4] += 1
-                                embed = discord.Embed(title="강화 성공", description="")
-                                embed.add_field(
+                                new_embed = discord.Embed(title="강화 성공", description="")
+                                new_embed.add_field(
                                     name="",
                                     value=":sparkles: 90%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
                                     inline=False,
                                 )
                             else:
-                                embed = discord.Embed(title="강화 실패", description="")
-                                embed.add_field(
+                                new_embed = discord.Embed(title="강화 실패", description="")
+                                new_embed.add_field(
                                     name="",
                                     value=""":boom: <:tier_S:1174038704009007165> × 20 
 강화에 실패하였습니다..""",
@@ -551,9 +544,8 @@ async def 강화(
                             embed.add_field(
                                 name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
                             )
-                        await ctx.respond(embed=embed)
                         self.disable_all_items()
-                        await interaction.response.edit_message(view=self)
+                        await interaction.response.edit_message(embed=new_embed, view=self)
 
             await ctx.respond(embed=embed, view=Button())
         elif enforcetpe == EnforceType[3]:
@@ -575,8 +567,8 @@ async def 강화(
                         if UserData[3] >= 23:
                             UserData[3] -= 23
                             UserData[4] += 1
-                            embed = discord.Embed(title="강화 성공", description="")
-                            embed.add_field(
+                            new_embed = discord.Embed(title="강화 성공", description="")
+                            new_embed.add_field(
                                 name="",
                                 value=":sparkles: 100%의 확률로 <:tier_SPlus:1174042855182970952>를 얻었습니다.",
                                 inline=False,
@@ -588,9 +580,8 @@ async def 강화(
                             embed.add_field(
                                 name="", value="카드 개수가 부족합니다. 개수를 확인하고 다시 시도해주세요."
                             )
-                        await ctx.respond(embed=embed)
                         self.disable_all_items()
-                        await interaction.response.edit_message(view=self)
+                        await interaction.response.edit_message(embed=new_embed, view=self)
 
             await ctx.respond(embed=embed, view=Button())
     else:
