@@ -137,11 +137,11 @@ async def 정보(ctx):
         BuffList = [Splus-level, level]
         rate = f"""{EmojiList[0]}: {CRate[Splus]}%
 {EmojiList[1]}: {BRate[Splus]}%
-{{EmojiList[2]}}: {ARate[Splus]}%
+{EmojiList[2]}: {ARate[Splus]}%
 {EmojiList[3]}: {SRate[Splus]}%"""
         merge = f"""{EmojiList[0]} × {CAmount[level]} → {EmojiList[1]}
-{EmojiList[1]} × {BAmount[level]} → {{EmojiList[2]}}
-{{EmojiList[2]}} × {AAmount[level]} → {EmojiList[3]}"""
+{EmojiList[1]} × {BAmount[level]} → {EmojiList[2]}
+{EmojiList[2]} × {AAmount[level]} → {EmojiList[3]}"""
         if Splus == 0:
             buff = '없음'
         elif level == 0:
@@ -156,7 +156,7 @@ async def 정보(ctx):
             name="인벤토리",
             value=f"""{EmojiList[0]}: {UserData[0]}
 {EmojiList[1]}: {UserData[1]}
-{{EmojiList[2]}}: {UserData[2]}
+{EmojiList[2]}: {UserData[2]}
 {EmojiList[3]}: {UserData[3]}
 {EmojiList[4]}: {UserData[4]}""",
             inline=False,
